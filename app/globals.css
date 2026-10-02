@@ -14,5 +14,8 @@ h1 { margin: 8px 0 32px; font-size: clamp(32px, 5vw, 52px); }
 .form input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 9px; }
 .form button { padding: 10px; border: 0; border-radius: 9px; background: #315efb; color: white; cursor: pointer; }
 .error { padding: 14px; border-radius: 12px; background: #fff0f0; color: #a42323; }
+.boards { display: grid; gap: 12px; margin-top: 28px; max-width: 640px; }
+.board-link { display: flex; justify-content: space-between; gap: 16px; padding: 18px; border: 1px solid #e3e8f0; border-radius: 14px; background: #fff; color: #172033; text-decoration: none; font-weight: 700; }
+.board-link span { color: #315efb; font-size: 14px; font-weight: 400; }
 @media (max-width: 900px) { .board { grid-template-columns: repeat(2, minmax(220px, 1fr)); } }
 @media (max-width: 560px) { .board { grid-template-columns: 1fr; } }
