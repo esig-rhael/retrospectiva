@@ -11,3 +11,7 @@ Prova técnica mínima: board, quatro colunas, cards persistidos e atualização
 5. Execute `npm run dev` e abra `http://localhost:3000` em duas abas.
 
 A migration cria o board de teste com ID fixo, as quatro colunas padrão, políticas públicas mínimas para a prova e adiciona `cards` à publicação Realtime. Em produção, substitua essas políticas por autenticação e autorização.
+
+## Autenticação
+
+O MVP agora possui cadastro, login e logout via Supabase Auth. No painel do Supabase, acesse **Authentication → Providers → Email** e mantenha o provedor habilitado. Se quiser testar sem confirmação de e-mail, desative temporariamente **Confirm email**; em produção, mantenha a confirmação habilitada.

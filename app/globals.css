@@ -17,5 +17,10 @@ h1 { margin: 8px 0 32px; font-size: clamp(32px, 5vw, 52px); }
 .boards { display: grid; gap: 12px; margin-top: 28px; max-width: 640px; }
 .board-link { display: flex; justify-content: space-between; gap: 16px; padding: 18px; border: 1px solid #e3e8f0; border-radius: 14px; background: #fff; color: #172033; text-decoration: none; font-weight: 700; }
 .board-link span { color: #315efb; font-size: 14px; font-weight: 400; }
+.auth-card { max-width: 420px; margin: 0 0 24px; padding: 20px; border: 1px solid #e3e8f0; border-radius: 16px; background: #fff; }
+.auth-card h2 { margin-top: 0; }
+.hint { color: #667085; font-size: 14px; }
+.text-button { padding: 0; border: 0; background: none; color: #315efb; cursor: pointer; }
+.user-bar { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 20px; color: #667085; font-size: 14px; }
 @media (max-width: 900px) { .board { grid-template-columns: repeat(2, minmax(220px, 1fr)); } }
 @media (max-width: 560px) { .board { grid-template-columns: 1fr; } }
