@@ -1,0 +1,3 @@
+create policy "owners remove invites" on public.board_invites for delete using (exists (select 1 from public.boards b where b.id = board_id and b.owner_id = auth.uid()));
+create policy "owners and invitees update cards" on public.cards for update using (exists (select 1 from public.board_columns c join public.boards b on b.id = c.board_id where c.id = column_id and (b.owner_id = auth.uid() or public.is_board_invited(b.id)))) with check (true);
+create policy "owners and invitees delete cards" on public.cards for delete using (exists (select 1 from public.board_columns c join public.boards b on b.id = c.board_id where c.id = column_id and (b.owner_id = auth.uid() or public.is_board_invited(b.id))));

@@ -22,5 +22,8 @@ h1 { margin: 8px 0 32px; font-size: clamp(32px, 5vw, 52px); }
 .hint { color: #667085; font-size: 14px; }
 .text-button { padding: 0; border: 0; background: none; color: #315efb; cursor: pointer; }
 .user-bar { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 20px; color: #667085; font-size: 14px; }
+.invite-row, .card-actions { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-top: 8px; font-size: 13px; }
+.card-actions { justify-content: flex-end; }
+.danger { color: #b42318; }
 @media (max-width: 900px) { .board { grid-template-columns: repeat(2, minmax(220px, 1fr)); } }
 @media (max-width: 560px) { .board { grid-template-columns: 1fr; } }
