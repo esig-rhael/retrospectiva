@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { supabase } from "../../../lib/supabase";
 import { UserBar } from "../../../components/UserBar";
 type Column = { id: string; title: string; position: number; cards: { id: string; content: string }[] };
-export default function BoardPage({ params }: { params: { boardId: string } }) { const boardId = params.boardId; const [title, setTitle] = useState("Retrospectiva"); const [columns, setColumns] = useState<Column[]>([]); const [error, setError] = useState(""); const [adding, setAdding] = useState<string | null>(null); const [content, setContent] = useState("");
+export default function BoardPage({ params }: { params: Promise<{ boardId: string }> }) { const { boardId } = use(params); const [title, setTitle] = useState("Retrospectiva"); const [columns, setColumns] = useState<Column[]>([]); const [error, setError] = useState(""); const [adding, setAdding] = useState<string | null>(null); const [content, setContent] = useState("");
   async function load() { if (!supabase) { setError("Configure as variáveis do Supabase."); return; } const board = await supabase.from("boards").select("title").eq("id", boardId).single(); if (board.error) { setError(board.error.message); return; } setTitle(board.data.title); const result = await supabase.from("board_columns").select("id,title,position,cards(id,content)").eq("board_id", boardId).order("position"); if (result.error) setError(result.error.message); else setColumns((result.data ?? []) as Column[]); }
   useEffect(() => { void load(); const client = supabase; if (!client) return; const channel = client.channel(`board-cards-${boardId}`).on("postgres_changes", { event: "*", schema: "public", table: "cards" }, () => void load()).subscribe(); return () => { void client.removeChannel(channel); }; }, [boardId]);
   async function addCard(columnId: string) { if (!supabase || !content.trim()) return; const result = await supabase.from("cards").insert({ column_id: columnId, content: content.trim() }); if (result.error) setError(result.error.message); else { setContent(""); setAdding(null); await load(); } }
