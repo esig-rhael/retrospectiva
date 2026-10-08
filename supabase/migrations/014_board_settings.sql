@@ -1,0 +1,2 @@
+create policy "owners and invited managers update boards" on public.boards for update using (owner_id = auth.uid() or (public.current_user_role() = 'gestor' and public.is_board_invited(id))) with check (owner_id = owner_id);
+create policy "owners and invited managers update columns" on public.board_columns for update using (exists (select 1 from public.boards b where b.id = board_id and (b.owner_id = auth.uid() or (public.current_user_role() = 'gestor' and public.is_board_invited(b.id)))));
