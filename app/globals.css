@@ -27,5 +27,15 @@ h1 { margin: 8px 0 32px; font-size: clamp(32px, 5vw, 52px); }
 .danger { color: #b42318; }
 .reaction { margin-top: 10px; padding: 5px 9px; border: 1px solid #cbd5e1; border-radius: 999px; background: #fff; color: #475467; cursor: pointer; font-size: 12px; }
 .reaction.active { border-color: #315efb; background: #eef3ff; color: #315efb; }
+.timer { display: flex; align-items: center; gap: 8px; margin: 18px 0; padding: 12px 14px; border: 1px solid #e3e8f0; border-radius: 12px; background: #fff; }
+.timer strong { font-size: 20px; margin-right: auto; }
+.timer input { width: 70px; padding: 7px; border: 1px solid #cbd5e1; border-radius: 8px; }
+.board-tools { display: flex; align-items: center; gap: 12px; }
+.print-button { padding: 9px 13px; border: 1px solid #315efb; border-radius: 9px; background: #fff; color: #315efb; cursor: pointer; }
+@media print { body { background: #fff; } .user-bar, .board-tools, .share, .add, .form, .card-actions, .reaction, a { display: none !important; } .shell { max-width: none; padding: 20px; } .board { grid-template-columns: repeat(2, 1fr); } .column { min-height: auto; box-shadow: none; break-inside: avoid; } }
+.admin-table { display: grid; gap: 10px; max-width: 760px; margin-top: 24px; }
+.user-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 15px; border: 1px solid #e3e8f0; border-radius: 12px; background: #fff; }
+.user-row select { padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; }
+.admin-create { max-width: 760px; margin: 24px 0; }
 @media (max-width: 900px) { .board { grid-template-columns: repeat(2, minmax(220px, 1fr)); } }
 @media (max-width: 560px) { .board { grid-template-columns: 1fr; } }
