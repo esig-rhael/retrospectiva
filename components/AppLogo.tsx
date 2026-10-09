@@ -1,0 +1,1 @@
+export function AppLogo() { return <a className="app-logo" href="/" aria-label="R-Retro - início"><span className="logo-mark" aria-hidden="true"><span>R</span><i /></span><span className="logo-name">R-Retro</span></a>; }
