@@ -12,7 +12,7 @@ export function SharePopover({ boardId }: { boardId: string }) {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<Invite["role"]>("participante");
   const [invites, setInvites] = useState<Invite[]>([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(""); const [inviteLink, setInviteLink] = useState(""); const [inviteLinkId, setInviteLinkId] = useState("");
 
   async function load() {
     if (!supabase) return;
@@ -52,6 +52,15 @@ export function SharePopover({ boardId }: { boardId: string }) {
     else { setMessage("Convite registrado com sucesso."); setEmail(""); await load(); }
   }
 
+  async function createLink() { if (!supabase) return; const session = await supabase.auth.getSession(); const result = await fetch("/api/board-invite-link", { method: "POST", headers: { Authorization: `Bearer ${session.data.session?.access_token ?? ""}`, "Content-Type": "application/json" }, body: JSON.stringify({ boardId, role }) }); const body = await result.json(); if (!result.ok) setMessage(body.error ?? "Não foi possível criar o link."); else { setInviteLink(body.url); setInviteLinkId(body.id); await navigator.clipboard.writeText(body.url); setMessage("Link copiado. Válido por 7 dias."); } }
+
+  async function revokeLink() {
+    if (!supabase || !inviteLinkId) return;
+    const session = await supabase.auth.getSession();
+    const result = await fetch("/api/board-invite-link", { method: "POST", headers: { Authorization: `Bearer ${session.data.session?.access_token ?? ""}`, "Content-Type": "application/json" }, body: JSON.stringify({ action: "revoke", linkId: inviteLinkId }) });
+    if (result.ok) { setInviteLink(""); setInviteLinkId(""); setMessage("Link revogado."); } else setMessage("Não foi possível revogar o link.");
+  }
+
   async function remove(id: string) {
     if (!supabase) return;
     const result = await supabase.from("board_invites").delete().eq("id", id);
@@ -63,11 +72,21 @@ export function SharePopover({ boardId }: { boardId: string }) {
     <button className="secondary-button" type="button" aria-haspopup="dialog" aria-expanded={open} onClick={() => { setOpen(value => !value); setMessage(""); }}>Compartilhar</button>
     {open && <div className="share-panel" role="dialog" aria-label="Compartilhar board">
       <h2>Compartilhar board</h2><p>{owner ? "Convide participantes ou gestores pelo e-mail." : "Convide participantes para este board."}</p>
-      <div className="share-input"><input autoFocus={open} type="email" value={email} onChange={event => setEmail(event.target.value)} onKeyDown={event => { if (event.key === "Enter") void invite(); }} placeholder="E-mail para compartilhar" /><button className="primary-button" type="button" onClick={() => void invite()}>Enviar</button></div>
+      <div className="share-input"><input autoFocus={open} type="email" value={email} onChange={event => setEmail(event.target.value)} onKeyDown={event => { if (event.key === "Enter") void invite(); }} placeholder="E-mail para compartilhar" /><button className="primary-button" type="button" onClick={() => void invite()}>Enviar</button></div><button className="secondary-button invite-link-button" type="button" onClick={() => void createLink()}>Copiar link de convite</button>{inviteLink && <div className="invite-link-result"><input className="invite-link-output" readOnly value={inviteLink} onFocus={event => event.currentTarget.select()} /><button className="text-button danger" type="button" onClick={() => void revokeLink()}>Revogar link</button></div>}
       {owner && <label className="share-role">Papel do convite<select value={role} onChange={event => setRole(event.target.value as Invite["role"])}><option value="participante">Participante</option><option value="gestor">Gestor</option></select></label>}
       {message && <p className="hint">{message}</p>}
       {invites.map(item => <div className="invite-row" key={item.id}><span>{item.email}<small>{item.role === "gestor" ? "Gestor" : "Participante"}</small></span><button className="text-button danger" type="button" onClick={() => void remove(item.id)}>Remover</button></div>)}
     </div>}
   </div>;
 }
+
+
+
+
+
+
+
+
+
+
 
